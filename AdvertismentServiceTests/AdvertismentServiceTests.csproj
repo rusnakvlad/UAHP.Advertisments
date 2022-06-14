@@ -20,9 +20,4 @@
     <Folder Include="ControllersTests\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Advertisment.BLL\Advertisment.BLL.csproj" />
-    <ProjectReference Include="..\Advertisment.DAL\Advertisment.DAL.csproj" />
-  </ItemGroup>
-
 </Project>
