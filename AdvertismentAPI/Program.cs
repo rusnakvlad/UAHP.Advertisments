@@ -2,13 +2,11 @@ using Advertisment.BLL.IServices;
 using Advertisment.BLL.Services;
 using Advertisment.BLL.Validation;
 using Advertisment.DAL.EF;
-using Advertisment.DAL.Enteties;
 using Advertisment.DAL.IRepositories;
 using Advertisment.DAL.Repositories;
 using Advertisment.DAL.UnitOfWork;
-using AdvertismentAPI.Consumers;
 using AdvertismentAPI.Exceptions;
-using FluentValidation;
+using AdvertismentAPI.Helpers;
 using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 #region RABBITMQ
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumer<UserConsumer>();
+    x.AddConsumer<AdvertismentAPI.Consumers.UserConsumer>();
     x.UsingRabbitMq((context, config) =>
     {
         config.Host(new Uri("rabbitmq://localhost"), h =>
@@ -29,9 +27,9 @@ builder.Services.AddMassTransit(x =>
             h.Password("guest");
         });
 
-        config.ReceiveEndpoint("user-queue", e =>
+        config.ReceiveEndpoint("user-queue-advertisments", e =>
         {
-            e.Consumer<UserConsumer>(context);
+            e.Consumer<AdvertismentAPI.Consumers.UserConsumer>(context);
         });
         config.ConfigureEndpoints(context);
     });
@@ -56,6 +54,7 @@ builder.Services.AddTransient<IAdService, AdService>();
 builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<IAdTagService, AdTagService>();
+builder.Services.AddTransient<IAdPublisher, AdPublisher>();
 #endregion
 
 #region AUTOMAPPER

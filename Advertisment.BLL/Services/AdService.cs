@@ -34,7 +34,7 @@ public class AdService : IAdService
         return mappedAdvertisment;
     }
 
-    public async Task<Ad> InsertAsync(AdCreateDTO model)
+    public async Task<AdDTO> InsertAsync(AdCreateDTO model)
     {
         var adEntity = mapper.Map<Ad>(model);
         var addedEntity = await unitOfWork.AdRepository.InsertAndGetInserted("InsertAndGetInsertedAdvertisment", adEntity);
@@ -50,7 +50,7 @@ public class AdService : IAdService
             await InsertAdvertismentsTags(tags);
         }
 
-        return addedEntity;
+        return await GetByIdAsync(addedEntity.Id);
     }
 
     public async Task<AdDTO> UpdateAsync(Ad model)

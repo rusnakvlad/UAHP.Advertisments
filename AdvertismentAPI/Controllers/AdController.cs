@@ -1,6 +1,7 @@
 ﻿using Advertisment.BLL.DTO;
 using Advertisment.BLL.IServices;
 using Advertisment.DAL.Enteties;
+using AdvertismentAPI.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdvertismentAPI.Controllers;
@@ -9,8 +10,13 @@ namespace AdvertismentAPI.Controllers;
 public class AdController : ControllerBase
 {
     private readonly IAdService adService;
+    private readonly IAdPublisher adPublisher;
 
-    public AdController(IAdService adService) => this.adService = adService;
+    public AdController(IAdService adService, IAdPublisher adPublisher)
+    {
+        this.adService = adService;
+        this.adPublisher = adPublisher;
+    }
 
     [HttpGet("GetById")]
     public async Task<IActionResult> GetAdvertismentById([FromQuery] int id)
@@ -30,6 +36,8 @@ public class AdController : ControllerBase
     public async Task<IActionResult> InsertAdvertisment([FromBody] AdCreateDTO advertisment)
     {
         var result = await adService.InsertAsync(advertisment);
+        adPublisher.Publish(result);
+
         return Ok(result);
     }
 
