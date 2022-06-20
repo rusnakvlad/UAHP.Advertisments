@@ -26,14 +26,14 @@ public class ConvertToAdTagList : ITypeConverter<(AdCreateDTO, int), IEnumerable
     }
 }
 
-public class ConvertToAdDTO : ITypeConverter<(Ad, IEnumerable<Image>, IEnumerable<Tag>), AdDTO>
+public class ConvertToAdFullInfoDTO : ITypeConverter<(Ad, IEnumerable<Image>, IEnumerable<Tag>), AdFullInfoDTO>
 {
     private readonly IMapper mapper;
-    public ConvertToAdDTO(IMapper mapper) => this.mapper = mapper;
+    public ConvertToAdFullInfoDTO(IMapper mapper) => this.mapper = mapper;
 
-    public AdDTO Convert((Ad, IEnumerable<Image>, IEnumerable<Tag>) source, AdDTO destination, ResolutionContext context)
+    public AdFullInfoDTO Convert((Ad, IEnumerable<Image>, IEnumerable<Tag>) source, AdFullInfoDTO destination, ResolutionContext context)
     {
-        AdDTO advertisment = mapper.Map<AdDTO>(source.Item1);
+        AdFullInfoDTO advertisment = mapper.Map<AdFullInfoDTO>(source.Item1);
         advertisment.Images = source.Item2;
         advertisment.Tags = source.Item3;
         return advertisment;

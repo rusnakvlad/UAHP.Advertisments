@@ -11,11 +11,12 @@ internal class MappersProfile : Profile
     {
         CreateMap<AdCreateDTO, Ad>();
         CreateMap<Ad, AdDTO>();
+        CreateMap<Ad, AdFullInfoDTO>();
         CreateMap<(AdCreateDTO advertisment, int advertismentId), IEnumerable<Image>>()
             .ConvertUsing<ConvertToImageList>();
         CreateMap<(AdCreateDTO advertisment, int advertismentId), IEnumerable<AdTag>>()
             .ConvertUsing<ConvertToAdTagList>();
-        CreateMap<(Ad, IEnumerable<Image>, IEnumerable<Tag>), AdDTO>()
-            .ConvertUsing<ConvertToAdDTO>();
+        CreateMap<(Ad, IEnumerable<Image>, IEnumerable<Tag>), AdFullInfoDTO>()
+            .ConvertUsing<ConvertToAdFullInfoDTO>();
     }
 }

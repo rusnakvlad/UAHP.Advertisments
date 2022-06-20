@@ -5,8 +5,8 @@ namespace Advertisment.BLL.IServices;
 
 public interface IAdService
 {
-    Task<AdDTO> GetByIdAsync(int id);
+    Task<AdFullInfoDTO> GetByIdAsync(int id);
     Task DeleteByIdAsync(int id);
-    Task<AdDTO> UpdateAsync(Ad model);
-    Task<AdDTO> InsertAsync(AdCreateDTO model);
+    Task<AdFullInfoDTO> UpdateAsync(Ad model);
+    Task<AdFullInfoDTO> InsertAsync(AdCreateDTO model);
 }
